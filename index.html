@@ -1,0 +1,400 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101114">
+<title>SENTINEL | Proteção é poder</title>
+
+<style>
+:root {
+  --fundo: #101114;
+  --painel: #202127;
+  --dourado: #d9ad58;
+  --texto: #f7f4ed;
+  --vermelho: #c92d35;
+}#42445A
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--fundo);
+  color: var(--texto);
+  font-family: Arial, sans-serif;
+}
+header {
+  text-align: center;
+  padding: 24px 10px;
+  border-bottom: 1px solid #39343a;
+}
+.logo {
+  color: var(--dourado);
+  font-size: 30px;
+  font-weight: 900;
+  letter-spacing: 5px;
+}
+.slogan {
+  color: #e8d6b2;
+  font-size: 11px;
+  letter-spacing: 3px;
+  margin-top: 8px;
+}
+main {
+  max-width: 480px;
+  margin: auto;
+  padding: 20px 16px 100px;
+}
+h2 { font-size: 23px; }
+p { line-height: 1.5; color: #c5c1bc; }
+.card {
+  background: var(--painel);
+  border: 1px solid #39363c;
+  border-radius: 17px;
+  padding: 18px;
+  margin: 16px 0;
+}
+.sos {
+  width: 100%;
+  min-height: 140px;
+  border: 0;
+  border-radius: 20px;
+  background: var(--vermelho);
+  color: white;
+  font-size: 23px;
+  font-weight: 900;
+}
+.sos small {
+  display: block;
+  font-size: 12px;
+  margin-top: 8px;
+}
+button {
+  cursor: pointer;
+  font-size: 15px;
+}
+.gold {
+  width: 100%;
+  padding: 15px;
+  background: var(--dourado);
+  color: #17130b;
+  border: 0;
+  border-radius: 12px;
+  font-weight: bold;
+  margin: 7px 0;
+}
+.dark {
+  width: 100%;
+  padding: 14px;
+  background: #292a30;
+  color: white;
+  border: 1px solid #55505a;
+  border-radius: 12px;
+  margin: 7px 0;
+}
+input, select {
+  width: 100%;
+  padding: 13px;
+  margin: 8px 0 15px;
+  border: 1px solid #55505a;
+  border-radius: 9px;
+  background: #141519;
+  color: white;
+  font-size: 16px;
+}
+.status {
+  background: #292a30;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 13px;
+  margin-top: 12px;
+}
+.page { display: none; }
+.page.active { display: block; }
+nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-around;
+  background: #17181c;
+  border-top: 1px solid #39363c;
+  padding: 12px 0;
+}
+nav button {
+  color: #c5c1bc;
+  background: none;
+  border: none;
+  font-size: 12px;
+}
+nav button.active { color: var(--dourado); }
+.notice { font-size: 12px; }
+</style>
+</head>
+
+<body>
+<header>
+  <div class="logo">SENTINEL</div>
+  <div class="slogan">PROTEÇÃO É PODER</div>
+</header>
+
+<main>
+<section id="inicio" class="page active">
+  <h2>Sua proteção começa aqui.</h2>
+  <p>Uma rede de apoio ao seu alcance.</p>
+
+  <button class="sos" onclick="acionarSOS()">
+    🛡️ ACIONAR SOS
+    <small>Toque em caso de emergência</small>
+  </button>
+
+  <div id="status" class="status">
+    Modo demonstração. Central não conectada.
+  </div>
+
+  <div class="card">
+    <h3 style="color:#d9ad58">Apoio psicológico</h3>
+    <p>Solicite atendimento de um profissional parceiro.</p>
+    <button class="gold" onclick="abrir('psicologo')">
+      SOLICITAR PSICÓLOGO
+    </button>
+  </div>
+
+  <div class="card">
+    <h3>Palavra de socorro</h3>
+    <p>Teste o reconhecimento de voz com esta tela aberta.</p>
+    <button class="gold" onclick="ouvir()">TESTAR MICROFONE</button>
+    <div id="vozStatus" class="status">Microfone desligado.</div>
+  </div>
+
+  <div class="card">
+    <h3>Suas solicitações</h3>
+    <button class="dark" onclick="abrir('historico')">
+      VER HISTÓRICO
+    </button>
+  </div>
+</section>
+
+<section id="psicologo" class="page">
+  <h2>Apoio psicológico</h2>
+  <div class="card">
+    <label>Tipo de atendimento</label>
+    <select id="formato">
+      <option>Online</option>
+      <option>Presencial, sujeito à disponibilidade</option>
+    </select>
+
+    <label>Motivo</label>
+    <select id="motivo">
+      <option>Acolhimento emocional</option>
+      <option>Após situação de violência</option>
+      <option>Ansiedade ou medo</option>
+      <option>Outro motivo</option>
+    </select>
+
+    <button class="gold" onclick="solicitarPsicologo()">
+      SOLICITAR ATENDIMENTO
+    </button>
+    <p class="notice">
+      Demonstração: nenhum profissional será notificado nesta versão.
+    </p>
+  </div>
+  <button class="dark" onclick="abrir('inicio')">VOLTAR</button>
+</section>
+
+<section id="historico" class="page">
+  <h2>Histórico</h2>
+  <div id="lista"></div>
+  <button class="dark" onclick="limparHistorico()">
+    LIMPAR HISTÓRICO
+  </button>
+  <button class="dark" onclick="abrir('inicio')">VOLTAR</button>
+</section>
+
+<section id="perfil" class="page">
+  <h2>Meu perfil</h2>
+  <div class="card">
+    <label>Nome</label>
+    <input id="nome" placeholder="Seu nome">
+    <label>Telefone</label>
+    <input id="telefone" inputmode="tel" placeholder="Seu telefone">
+    <button class="gold" onclick="salvarPerfil()">SALVAR</button>
+  </div>
+  <button class="dark" onclick="abrir('inicio')">VOLTAR</button>
+</section>
+</main>
+
+<nav>
+  <button class="active" onclick="abrir('inicio',this)">⌂<br>Início</button>
+  <button onclick="abrir('psicologo',this)">♡<br>Psicólogo</button>
+  <button onclick="abrir('historico',this)">▤<br>Histórico</button>
+  <button onclick="abrir('perfil',this)">♙<br>Perfil</button>
+</nav>
+
+<script>
+const CHAVE = "sentinel_historico";
+
+function abrir(id, botao) {
+  document.querySelectorAll(".page").forEach(p =>
+    p.classList.remove("active")
+  );
+  document.getElementById(id).classList.add("active");
+
+  document.querySelectorAll("nav button").forEach(b =>
+    b.classList.remove("active")
+  );
+  if (botao) botao.classList.add("active");
+
+  if (id === "historico") atualizarHistorico();
+  window.scrollTo(0, 0);
+}
+
+function registros() {
+  try {
+    return JSON.parse(localStorage.getItem(CHAVE) || "[]");
+  } catch(e) {
+    return [];
+  }
+}
+
+function registrar(tipo, detalhe) {
+  const lista = registros();
+  lista.unshift({
+    tipo,
+    detalhe,
+    data: new Date().toLocaleString("pt-BR")
+  });
+  localStorage.setItem(CHAVE, JSON.stringify(lista.slice(0, 50)));
+}
+
+function acionarSOS() {
+  const confirmar = confirm(
+    "Confirmar SOS demonstrativo?\\n\\n" +
+    "Este protótipo NÃO envia alertas a uma central real."
+  );
+
+  if (!confirmar) return;
+
+  registrar("SOS manual", "Registrado localmente; central não conectada.");
+  document.getElementById("status").textContent =
+    "SOS registrado apenas neste aparelho. Nenhuma equipe foi acionada.";
+
+  atualizarHistorico();
+  alert(
+    "Registro demonstrativo concluído. Nenhuma equipe foi acionada. " +
+    "Em perigo imediato, ligue 190."
+  );
+}
+
+function solicitarPsicologo() {
+  const formato = document.getElementById("formato").value;
+  const motivo = document.getElementById("motivo").value;
+
+  registrar(
+    "Apoio psicológico",
+    formato + " — " + motivo + ". Solicitação local."
+  );
+
+  alert("Pedido demonstrativo registrado. Nenhum profissional foi notificado.");
+  abrir("historico");
+}
+
+function ouvir() {
+  const saida = document.getElementById("vozStatus");
+  const Reconhecimento =
+    window.SpeechRecognition || window.webkitSpeechRecognition;
+
+  if (!Reconhecimento) {
+    saida.textContent =
+      "Reconhecimento indisponível neste navegador. Tente Chrome atualizado.";
+    return;
+  }
+
+  const reconhecimento = new Reconhecimento();
+  reconhecimento.lang = "pt-BR";
+  reconhecimento.continuous = false;
+  reconhecimento.interimResults = true;
+
+  saida.textContent = "Ouvindo agora. Mantenha esta tela aberta.";
+
+  reconhecimento.onresult = function(evento) {
+    let frase = "";
+
+    for (let i = evento.resultIndex; i < evento.results.length; i++) {
+      frase += evento.results[i][0].transcript;
+    }
+
+    saida.textContent = "Reconhecido: " + frase;
+
+    if (/socorro|preciso de ajuda|preciso ajuda/i.test(frase)) {
+      registrar("Palavra-chave de voz", "Frase detectada; alerta não enviado.");
+      alert(
+        "Palavra reconhecida. Atenção: nenhum alerta foi enviado à central."
+      );
+    }
+  };
+
+  reconhecimento.onerror = function(evento) {
+    saida.textContent = "Falha no reconhecimento: " + evento.error;
+  };
+
+  try {
+    reconhecimento.start();
+  } catch(e) {
+    saida.textContent = "Não foi possível iniciar o microfone.";
+  }
+}
+
+function atualizarHistorico() {
+  const area = document.getElementById("lista");
+  const itens = registros();
+  area.innerHTML = "";
+
+  if (!itens.length) {
+    area.textContent = "Nenhuma solicitação registrada.";
+    return;
+  }
+
+  itens.forEach(item => {
+    const card = document.createElement("div");
+    card.className = "card";
+
+    const titulo = document.createElement("h3");
+    titulo.textContent = item.tipo;
+
+    const detalhe = document.createElement("p");
+    detalhe.textContent = item.detalhe;
+
+    const data = document.createElement("small");
+    data.textContent = item.data;
+
+    card.append(titulo, detalhe, data);
+    area.appendChild(card);
+  });
+}
+
+function limparHistorico() {
+  if (confirm("Apagar o histórico salvo neste navegador?")) {
+    localStorage.removeItem(CHAVE);
+    atualizarHistorico();
+  }
+}
+
+function salvarPerfil() {
+  localStorage.setItem("sentinel_nome",
+    document.getElementById("nome").value);
+  localStorage.setItem("sentinel_telefone",
+    document.getElementById("telefone").value);
+  alert("Perfil salvo neste navegador.");
+}
+
+document.getElementById("nome").value =
+  localStorage.getItem("sentinel_nome") || "";
+document.getElementById("telefone").value =
+  localStorage.getItem("sentinel_telefone") || "";
+
+atualizarHistorico();
+</script>
+</body>
+</html>
+
